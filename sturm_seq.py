@@ -21,7 +21,7 @@ References:
 Computational Ocean Acoustics:
 Jensen, F. B., Kuperman, W. A., Porter, M. B., Schmidt, H., & Tolstoy, A. (2011). Computational ocean acoustics (Vol. 794). New York: Springer.
 
-Porter, Michael B., and Edward L. Reiss. "A note on the relationship between finite-difference and hooting methods for ODE eigenvalue problems." SIAM journal on numerical analysis 23.5 (1986): 1034-1039.
+Porter, Michael B., and Edward L. Reiss. "A note on the relationship between finite-difference and shooting methods for ODE eigenvalue problems." SIAM journal on numerical analysis 23.5 (1986): 1034-1039.
 
 Porter, Michael, and Edward L. Reiss. "A numerical method for ocean‐acoustic normal modes." The Journal of the Acoustical Society of America 76.1 (1984): 244-252.
 

@@ -8,8 +8,8 @@ _Hunter Akins_ from _Scripps Institution of Oceanography, UC San Diego_. I use t
 
 More or less a translation of Michael Porter's KRAKEN.
 Some small differences:
-- I continue to do bisection and Brent for all meshes instead of switching to secant method with deflation
-- I do not have partial pivoting in my inverse iteration tridiagonal solver (at this point)
+- Author continues to do bisection and Brent for all meshes instead of switching to secant method with deflation
+- Author does not have partial pivoting in his inverse iteration tridiagonal solver (at this point)
 
 A big difference:
 - Elastic layers are not supported
