@@ -1,5 +1,7 @@
 # PyKraken
 
+![](https://github.com/dady-mlops/pykraken/blob/main/KRAKEN.gif)
+
 Python implementation of normal mode solver for underwater acoustic propagation. This implementation is developed by
 _Hunter Akins_ from _Scripps Institution of Oceanography, UC San Diego_. I use this code for KRAKEN understanding.
 
