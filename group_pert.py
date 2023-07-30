@@ -89,4 +89,4 @@ def get_ugs(omega, krs, phi, h_list, z_list, c_list, rho_list,\
         ugm += delta_ugm
         ugs[i] = 1/ugm
     return ugs
-        
+
