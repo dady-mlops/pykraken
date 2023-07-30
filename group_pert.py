@@ -55,16 +55,16 @@ def get_ugs(omega, krs, phi, h_list, z_list, c_list, rho_list,\
         should be evaluated on the supplied grid of z_list
     h_list - list of floats
         step size of each layer mesh
-    z_list - list of np ndarray of floats   
+    z_list - list of np ndarray of floats
         depths for mesh of each layer
     c_list - list of np ndarray of floats
         values of sound speed at each depth (real)
-    rho_list - list of np ndarray of floats 
+    rho_list - list of np ndarray of floats
         densities at each depth
     c_hs - float
         halfspace speed (m/s)
     rho_hs - float
-        halfpace density (g / m^3) 
+        halfpace density (g / m^3)
     """
     ugs = np.zeros((krs.size))
     num_modes = krs.size
@@ -89,4 +89,3 @@ def get_ugs(omega, krs, phi, h_list, z_list, c_list, rho_list,\
         ugm += delta_ugm
         ugs[i] = 1/ugm
     return ugs
-
