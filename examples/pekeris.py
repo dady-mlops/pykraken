@@ -18,7 +18,7 @@ import matplotlib
 matplotlib.rcParams['mathtext.fontset'] = 'stix'
 matplotlib.rcParams['font.family'] = 'STIXGeneral'
 
-from pynm.pynm_env import Env
+from pykraken.pynm_env import Env
 
 z_list = [np.array([0, 5000.])]
 c_list = [np.array([1500., 1500.])]
@@ -42,7 +42,7 @@ phi_z = env.get_phi_z()
 phi = env.phi
 r = np.linspace(2*1e5, 2.2*1e5, 1000)
 
-from pynm import pressure_calc as pc
+from pykraken import pressure_calc as pc
 p = pc.get_grid_pressure(zr, phi_z, phi, krs, zs, r)
 tmp_r = np.array([1.0])
 tmp_p = pc.get_grid_pressure(zr, phi_z, phi, krs, zr, tmp_r)

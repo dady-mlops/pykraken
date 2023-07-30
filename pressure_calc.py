@@ -34,7 +34,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import numpy as np
 from matplotlib import pyplot as plt
-from pynm.envs import factory
+from pykraken.envs import factory
 from numba import njit
 
 
@@ -278,7 +278,7 @@ def get_simple_doppler_vec_pressure(phi_zr, phi_zs, krs, rgrid, tgrid, ums, tilt
     num_track_pts = rgrid.size
     num_depths = phi_zr.shape[0]
     full_p = np.zeros((num_depths, num_track_pts), dtype=np.complex_)
-    dt = tgrid[1] - tgrid[0]     
+    dt = tgrid[1] - tgrid[0]
     for i in range(num_track_pts):
         modal_matrix = phi_zr * phi_zs[:,i]
         modal_matrix = modal_matrix.astype(np.complex_)
@@ -316,10 +316,10 @@ def quick_tilt_test():
     krs = env.get_krs(**{'cmax': 1800.})
     phi_zr = env.get_phi_zr(zr)
     phi_zs = env.get_phi_zr(np.array(zs))
-    r = np.arange(1000,1500,.1)    
+    r = np.arange(1000,1500,.1)
     phi_zs = phi_zs.T * np.ones(r.size)
     tilt_angles = 45*(1500 - r) / 500
- 
+
     p = get_vec_pressure(phi_zr, phi_zs, krs, r)
     p1 = get_vec_pressure(phi_zr, phi_zs, krs, r, tilt_angles, zr=zr)
     p1 = get_vec_pressure(phi_zr, phi_zs, krs, r, tilt_angles, zr=zr)
@@ -327,7 +327,7 @@ def quick_tilt_test():
     now = time.time()
     p1 = get_vec_pressure(phi_zr, phi_zs, krs, r, tilt_angles, zr=zr)
     print('time to run' ,time.time() - now)
-    
+
     plt.figure()
     plt.pcolormesh(r, zr, abs(p))
     for j in range(r.size):
@@ -368,15 +368,15 @@ def quick_dopp_test():
     dtilt = .001
     tilt_angles = tilt0 + dtilt*t_ret_grid
 
-    p = get_doppler_vec_pressure(phi_zr, phi_zs, krs, r_ret, t_ret_grid, ums, unif_grid) 
+    p = get_doppler_vec_pressure(phi_zr, phi_zs, krs, r_ret, t_ret_grid, ums, unif_grid)
     print(tgrid[0])
 
 
     r_grid = r0 + v*tgrid
-    p1 = get_vec_pressure(phi_zr, phi_zs, krs, r_grid) 
+    p1 = get_vec_pressure(phi_zr, phi_zs, krs, r_grid)
     kr_factors = 1 / (1 + v / ums)
     krs = krs * kr_factors
-    p2 = get_vec_pressure(phi_zr, phi_zs, krs, r_grid) 
+    p2 = get_vec_pressure(phi_zr, phi_zs, krs, r_grid)
 
     plt.figure()
     plt.pcolormesh(tgrid, zr, abs(p))
@@ -423,9 +423,9 @@ def acc_dopp_test():
     dtilt = .001
     tilt_angles = tilt0 + dtilt*t_ret_grid
 
-    tgrid, p = get_doppler_vec_pressure(phi_zr, phi_zs, krs, r_ret, t_ret_grid, ums) 
+    tgrid, p = get_doppler_vec_pressure(phi_zr, phi_zs, krs, r_ret, t_ret_grid, ums)
     print(tgrid[0])
-    
+
     r_grid = r0 + v*tgrid + .5*alpha*np.square(tgrid)
     mean_v = v+ alpha*np.mean(tgrid)
     kr_factors = 1 / (1 + mean_v / ums)
@@ -464,7 +464,6 @@ def two_dopp_comp():
     alpha = 1 / 600
     r_ret = r0 + v*t_ret_grid + .5*alpha*np.square(t_ret_grid)
     r = r_ret[1:].copy()
-    
 
     phi_zs_track = env.get_phi_zr(np.array([zs] * len(t_ret_grid)))
     import time
@@ -493,7 +492,7 @@ def two_dopp_comp():
     plt.plot(abs(dopp_p), 'k')
     plt.show()
 
-if __name__ == '__main__': 
+if __name__ == '__main__':
     two_dopp_comp()
     acc_dopp_test()
     quick_dopp_test()

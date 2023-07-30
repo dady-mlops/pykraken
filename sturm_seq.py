@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 from numba import njit, vectorize, jit
 import numba as nb
 import time
-from pynm.mesh_routines import *
+from pykraken.mesh_routines import *
 
 """
 Description:

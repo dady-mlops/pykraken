@@ -1,10 +1,10 @@
 import numpy as np
 from matplotlib import pyplot as plt
-from pynm.sturm_seq import get_krs, get_arrs
-from pynm.shooting_routines import shoot_first_layer, shoot_from_bottom
-from pynm.inverse_iteration import get_phi
-from pynm.attn_pert import add_attn, get_attn_conv_factor
-from pynm.group_pert import get_ugs
+from pykraken.sturm_seq import get_krs, get_arrs
+from pykraken.shooting_routines import shoot_first_layer, shoot_from_bottom
+from pykraken.inverse_iteration import get_phi
+from pykraken.attn_pert import add_attn, get_attn_conv_factor
+from pykraken.group_pert import get_ugs
 import numba as nb
 """
 Description:
@@ -112,7 +112,7 @@ class Env:
         self.rho_list = rho_list
         self.attn_list = attn_list
         return
-            
+
     def add_attn_conv_factor(self):
         if self.attn_units in ['npm','dbpm']:
             conv_factor = get_attn_conv_factor(self.attn_units)
@@ -191,9 +191,9 @@ class Env:
             attn = self.attn_list[i]
             rho = self.rho_list[i]
             new_z = np.linspace(z[0], z[-1], N)
-            new_c = np.interp(new_z, z, c)            
-            new_rho = np.interp(new_z, z, rho)            
-            new_attn = np.interp(new_z, z, attn)            
+            new_c = np.interp(new_z, z, c)
+            new_rho = np.interp(new_z, z, rho)
+            new_attn = np.interp(new_z, z, attn)
             z_list.append(new_z)
             c_list.append(new_c)
             attn_list.append(new_attn)
@@ -234,22 +234,18 @@ class Env:
         if 'N_list' in kwargs.keys():
             N_list = kwargs['N_list']
         else:
-            N_list  = self.get_N_list()  
-
-
+            N_list  = self.get_N_list()
 
         # set bounds
         kr_min = self.omega / cmax
         kr_max = self.omega / cmin
         self.N_list = N_list
-  
         H = np.zeros((Nh, Nh))
         kr_meshes = [] # store wavenumbers from each mesh
         M = 1e10 # number of modes
 
         # loop over meshes
         for i in range(Nh):  # (max) num Richardson mesh refinements
-
             # refine mesh
             factor = int(np.power(2.0, i))
             curr_N_list = [(x-1)*factor+1 for x in N_list]
@@ -284,7 +280,7 @@ class Env:
             for k in range(Nh):
                 H[i,k] = np.power(curr_h_list[0], 2*k)
                 # In matrix form [kr_i^2(h_1) \\ kr_i^2(h_2) \\ \vdots \\ kr_i^2(h_Nh)] = H [kr_0^2 \\ b_2 \\ b_4 \\ \vdots \\ b_{2N_h} ]  
-             
+
             # eventually make this recursive (don't think it's a bottleneck)
             if i >= 1: # do richardson for all meshes up to now
                 # Now do Richardson... kr_{i}^{2}(h) = kr_{0}^{2} + b_{2} h^{2} + b_{4} h^{4}\;....
@@ -301,9 +297,9 @@ class Env:
                         print('rmax attained, mesh num. ', i+1)
                     break
         if i > 0:
-            krs = rich_krs            
+            krs = rich_krs
         else:
-            krs = krs            
+            krs = krs
 
         krs = extrap_mat[i,:] # return best extrapolation vals
         coarse_krs = extrap_mat[0,:] # keep krs from first mesh for computing phi
@@ -316,7 +312,7 @@ class Env:
                 attn=True
         if not attn and (self.attn_hs):
             attn = True
-        if attn==True: 
+        if attn==True:
             conv_factor = self.add_attn_conv_factor()
             self.krs = krs
             phi = self.get_phi(N_list)  # need phi to compute attenuation
@@ -324,7 +320,7 @@ class Env:
             h_list = [x[1] - x[0] for x in tmp_z_list]
             tmp_attn_list, tmp_attn_hs = [conv_factor*x for x in tmp_attn_list], conv_factor*self.attn_hs
             krs = add_attn(self.omega, krs, phi, h_list, tmp_z_list, tmp_c_list, tmp_rho_list, tmp_attn_list, self.c_hs, self.rho_hs, tmp_attn_hs)
-            
+
         else:
             self.krs = krs
             phi = self.get_phi(N_list)  # get unperturbed phi (no attenuation)
@@ -343,8 +339,8 @@ class Env:
             raise ValueError('Must run get_krs first')
         else:
             krs = self.coarse_krs.real
-            if type(N_list) == type(None):# use lambda / 20 
-                N_list  = self.get_N_list()  
+            if type(N_list) == type(None):# use lambda / 20
+                N_list  = self.get_N_list()
             else: # manual grid number
                 pass
             z_list, c_list, rho_list, attn_list = self.interp_env_vals(N_list)
@@ -359,8 +355,8 @@ class Env:
         Get grid of depths at which the mode functions are evaluated
         """
         # N_list is an optional argument that allows you to specify the number of points in each layer
-        if type(N_list) == type(None): # use lambda / 20 
-            N_list  = self.get_N_list()  
+        if type(N_list) == type(None): # use lambda / 20
+            N_list  = self.get_N_list()
         else: # manual grid number
             pass
         for i in range(len(N_list)):
@@ -434,7 +430,7 @@ class Env:
         modes = Modes(freq, krs, phi, M, z)
         self.mode_dict[freq] = modes
         return krs
-        
+
     def plot_env(self, ax=None, color=None):
         """
         Very basic plotting
